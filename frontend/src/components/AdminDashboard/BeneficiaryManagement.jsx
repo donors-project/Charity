@@ -11,10 +11,8 @@ const BeneficiaryManagement = () => {
       try {
         const response = await axios.get("http://localhost:5000/api/admin/beneficiaries");
 
-        // Log the entire response to check the structure
         console.log(response);
 
-        // Check if the response data is an array
         if (Array.isArray(response.data)) {
           setBeneficiaries(response.data);
         } else {
@@ -31,7 +29,6 @@ const BeneficiaryManagement = () => {
     fetchBeneficiaries();
   }, []);
 
-  // Handle loading and error states
   if (loading) {
     return <div className="text-center text-gray-500">Loading...</div>;
   }

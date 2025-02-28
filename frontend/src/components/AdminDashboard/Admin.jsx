@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import DonorDashboard from "./DonorDashboard";  // This will handle donations table
-import BeneficiaryManagement from "./BeneficiaryManagement";  // For managing beneficiaries
-import ReportGeneration from "./ReportGeneration";  // For generating reports
+import DonorDashboard from "./DonorDashboard";  
+import BeneficiaryManagement from "./BeneficiaryManagement"; 
+import ReportGeneration from "./ReportGeneration"; 
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("dashboard");
