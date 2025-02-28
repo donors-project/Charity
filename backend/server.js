@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const sequelize = require('./config/database'); 
 const userRoutes = require('./routes/userRoutes');
+// const adminRoutes = require('./routes/adminRoutes');
 
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 
 
 app.use('/api/users', userRoutes);
+// app.use('/api/admin', adminRoutes);
 
 
 app.get('/', (req, res) => {

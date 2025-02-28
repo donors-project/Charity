@@ -1,5 +1,6 @@
 
-export default function OrdersHistory() {
+
+export default function ZakahCalculator() {
     return (
         <div>
 

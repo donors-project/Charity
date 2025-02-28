@@ -1,5 +1,5 @@
 
-export default function OrdersHistory() {
+export default function Footer() {
     return (
         <div>
 
