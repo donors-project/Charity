@@ -1,9 +1,50 @@
-
+import React, { useState } from "react";
+import DonorDashboard from "./DonorDashboard";  // This will handle donations table
+import BeneficiaryManagement from "./BeneficiaryManagement";  // For managing beneficiaries
+import ReportGeneration from "./ReportGeneration";  // For generating reports
 
 export default function Admin() {
-    return (
-        <div>
+  const [activeTab, setActiveTab] = useState("dashboard");
 
-        </div>
-    )
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "dashboard":
+        return <DonorDashboard />;
+      case "beneficiaries":
+        return <BeneficiaryManagement />;
+      case "reports":
+        return <ReportGeneration />;
+      default:
+        return <DonorDashboard />;
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-6">
+      {/* Admin Dashboard Navbar */}
+      <div className="flex space-x-6 mb-6">
+        <button
+          className={`text-lg font-semibold ${activeTab === "dashboard" ? "text-blue-500" : "text-gray-700"}`}
+          onClick={() => setActiveTab("dashboard")}
+        >
+          Dashboard
+        </button>
+        <button
+          className={`text-lg font-semibold ${activeTab === "beneficiaries" ? "text-blue-500" : "text-gray-700"}`}
+          onClick={() => setActiveTab("beneficiaries")}
+        >
+          Beneficiaries
+        </button>
+        <button
+          className={`text-lg font-semibold ${activeTab === "reports" ? "text-blue-500" : "text-gray-700"}`}
+          onClick={() => setActiveTab("reports")}
+        >
+          Reports
+        </button>
+      </div>
+
+      {/* Content */}
+      <div>{renderTabContent()}</div>
+    </div>
+  );
 }

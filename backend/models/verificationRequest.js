@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../config/database'); 
 const Beneficiary = require('./beneficiary');
 
 const VerificationRequest = sequelize.define('VerificationRequest', {

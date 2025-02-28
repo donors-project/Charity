@@ -1,26 +1,26 @@
 require('dotenv').config();
+require('./models/associations');
 const express = require('express');
 const sequelize = require('./config/database'); 
 const userRoutes = require('./routes/userRoutes');
-// const adminRoutes = require('./routes/adminRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
 // ------------ Middlewares ------------
 app.use(express.json());
-
+app.use(cors());
 
 app.use('/api/users', userRoutes);
-// app.use('/api/admin', adminRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 app.get('/', (req, res) => {
     res.send('Hello! Your Express server and Sequelize connection are working.');
 });
-
 
 // ------------ Start Server & Database ------------
 const startServer = async () => {
