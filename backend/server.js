@@ -4,6 +4,8 @@ const express = require('express');
 const sequelize = require('./config/database'); 
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const homeRoutes = require('./routes/homeRoutes');
+
 
 const cors = require('cors');
 
@@ -16,6 +18,8 @@ app.use(cors());
 
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/home', homeRoutes);
+
 
 
 app.get('/', (req, res) => {
