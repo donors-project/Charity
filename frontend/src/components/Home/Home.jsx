@@ -1,10 +1,27 @@
-const Home = () => {
+import React from 'react'
+import Hero from "./Hero"
+import Aya from './Aya'
+import OurStory from './OurStory'
+import Categories from './Categories'
+import Statistics from './Statistics'
+import SuccessStory from './SuccessStory'
+import Aya2 from './Aya2'
+import BenficiarySection from './BenficiarySection'
+import CardsDB from './CardsDB'
+function Home() {
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Welcome to the Home Page</h1>
-      <p>This is the main page of the application.</p>
-    </div>
-  );
-};
+    <>
+    <Hero/>
+    <Aya/>
+    <Categories/>
+    <OurStory/>
+    <Aya2/> 
+    <CardsDB/>
+    <SuccessStory/>
+    <Statistics/>
+    <BenficiarySection/>
+    </>
+  )
+}
 
-export default Home;
+export default Home
