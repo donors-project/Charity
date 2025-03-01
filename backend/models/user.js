@@ -24,7 +24,7 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-            isIn: [['beneficiary', 'Donor', 'Admin']]
+            isIn: [['beneficiary', 'donor', 'Admin']]
         }
     },
     address: {
