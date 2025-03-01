@@ -18,6 +18,7 @@ import RegisterDonor from './components/RegisterDonor/RegisterDonor';
 import SinglePage from './components/SinglePage/SinglePage';
 import TopDonations from './components/TopDontions/TopDonations';
 import ZakahCalculator from './components/ZakahCalculator/ZakahCalculator';
+import Footer from './components/Footer/Footer';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/top-donations" element={<TopDonations />} />
           <Route path="/zakah-calculator" element={<ZakahCalculator />} />
         </Routes>
+        <Footer/>
       </div>
     </Router>
   );
