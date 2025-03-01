@@ -29,10 +29,17 @@ const Beneficiary = sequelize.define('Beneficiary', {
     },
     verified: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: null  // Default to NULL (Pending)
     },
     identity_image: {
         type: DataTypes.STRING(255)
+    },
+    category: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        validate: {
+            isIn: [['فك كربة السجناء', 'مساعدة المرضى', 'سداد ديون الأسر المحتاجة', 'سداد ديون التعليم']]
+        }
     },
     created_at: {
         type: DataTypes.DATE,

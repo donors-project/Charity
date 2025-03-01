@@ -1,9 +1,29 @@
+// admin.controller
 const Donation = require('../models/donation');
 const Beneficiary = require('../models/beneficiary');
 const Donor = require('../models/donor');
 const User = require('../models/user');
 
 const { Op } = require('sequelize');
+
+
+// adminController.js
+exports.getSingleUser = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const user = await User.findOne({ where: { id: userId } });
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
 
 exports.getDonorContributions = async (req, res) => {
     try {
@@ -28,6 +48,26 @@ exports.getDonorContributions = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 };
+
+// Get single beneficiary details
+exports.getSingleBeneficiary = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const beneficiary = await Beneficiary.findOne({
+        where: { id },
+      });
+  
+      if (!beneficiary) {
+        return res.status(404).json({ message: "Beneficiary not found" });
+      }
+  
+      res.status(200).json(beneficiary);
+    } catch (error) {
+      console.error("Error fetching beneficiary:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
 
 exports.getBeneficiaries = async (req, res) => {
     try {
