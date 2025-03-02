@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-
 const TopDonors = () => {
     const [donors, setDonors] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -10,9 +9,8 @@ const TopDonors = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/top/donor");
-
-                setDonors(response.data);
+                const donorRes = await axios.get("http://localhost:5000/api/top/donors"); // جلب قائمة المتبرعين
+                setDonors(donorRes.data);
                 setLoading(false);
             } catch (err) {
                 console.error("Error fetching data:", err);
@@ -20,6 +18,7 @@ const TopDonors = () => {
                 setLoading(false);
             }
         };
+
         fetchData();
     }, []);
 
@@ -33,7 +32,7 @@ const TopDonors = () => {
             <main className="max-w-6xl mx-auto p-4 pt-15">
                 {/* Title Section */}
                 <div className="text-right mb-8">
-                    <h1 className="text-3xl font-bold text-[#727D73] mb-2">قائمة ابرز المحسنين</h1>
+                    <h1 className="text-3xl font-bold text-[#727D73] mb-2">قائمة أبرز المحسنين</h1>
                     <p className="text-black">قائمة الجهات والأفراد الذين تبرعوا في مختلف مجالات الخير والعطاء.</p>
                 </div>
 
@@ -59,17 +58,16 @@ const TopDonors = () => {
                         {donors.map((donor, index) => (
                             <div key={donor.id} className="flex flex-row-reverse justify-between p-4 border-b">
                                 <div className="text-left"> {/* اسم المتبرع */}
-                                <div className="text-lg font-bold">{donor.full_name}</div>
+                                    <div className="text-lg font-bold">{donor.User?.full_name || "غير معروف"}</div>
                                 </div>
                                 <div className="flex items-center">
-                                    <div className="w-8 h-8 bg-[#AAB99A] flex items-center justify-center rounded-full">
+                                    <div className="w-8 h-8 bg-[#AAB99A] flex items-center justify-center rounded-full text-white font-bold">
                                         {index + 1}
                                     </div> {/* الترتيب */}
                                     <div className="text-right font-bold mr-4">
-                                        {donor.total_donated.toLocaleString()}{" "}
+                                        {(donor.total_donated || 0).toLocaleString()}{" "}
                                         <span className="text-[#AAB99A]">دينار أردني</span>
                                     </div>
-
                                 </div>
                             </div>
                         ))}

@@ -13,13 +13,13 @@ import Home from './components/Home/Home';
 import Login from './components/LogIn/Login';
 import OrdersHistory from './components/OrdersHistory/OrdersHistory';
 import Payment from './components/Payment/Payment';
-import RegisterBenficiary from './components/RegisterBenficiary/RegisterBenficiary';
-import RegisterDonor from './components/RegisterDonor/RegisterDonor';
+import RegisterBenficiary from './components/RegisterBenficiary/RegisterBenficiaryy';
+import RegisterDonor from './components/RegisterDonor/RegisterDonorr';
 import SinglePage from './components/SinglePage/SinglePage';
 import ZakahCalculator from './components/ZakahCalculator/ZakahCalculator';
 import Footer from './components/Footer/Footer';
 import TopDonors from './components/TopDontions/TopDonors';
-
+// import RegisterBeneficiary from ''
 const App = () => {
   return (
     <Router>
