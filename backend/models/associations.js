@@ -19,8 +19,10 @@ VerificationRequest.belongsTo(Beneficiary, { foreignKey: 'debtor_id' });
 User.hasOne(Admin, { foreignKey: 'user_id' });
 Admin.belongsTo(User, { foreignKey: 'user_id' });
 
+// Donation Associations:
 Beneficiary.hasMany(Donation, { foreignKey: 'debtor_id' });
 Donor.hasMany(Donation, { foreignKey: 'donor_id' });
+
 Donation.belongsTo(Beneficiary, { foreignKey: 'debtor_id' });
 Donation.belongsTo(Donor, { foreignKey: 'donor_id' });
 
