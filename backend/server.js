@@ -6,7 +6,7 @@ const adsRoutes = require("./routes/beneficiaryRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 // const adminRoutes = require('./routes/adminRoutes');
 const homeRoutes = require ('./routes/homeRoutes')
-const topDonors = require ('./routes/topDonorRoutes')
+const topDonors = require('./routes/topDonorRoutes');
 const chatRoutes = require ('./routes/chatRoutes')
 
 

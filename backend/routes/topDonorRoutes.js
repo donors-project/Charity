@@ -1,10 +1,9 @@
+// topDonorRoutes.js
 const express = require('express');
 const router = express.Router();
-const {getTopDonors,} = require('../controllers/topDonorController');
-  
+const { getTopDonors } = require('../controllers/topDonorController');
 
-// Get all Donors
-router.get('/donor', getTopDonors);
+// Ensure the route is '/api/top/donors'
+router.get('/donors', getTopDonors);
 
 module.exports = router;
-
