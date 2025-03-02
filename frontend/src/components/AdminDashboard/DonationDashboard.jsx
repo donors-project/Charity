@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const DonationDashboard = () => {
   const [donations, setDonations] = useState([]);
@@ -17,8 +18,8 @@ const DonationDashboard = () => {
   });
 
   // الفلاتر
-  const [statusFilter, setStatusFilter] = useState("all"); // "all", "Completed", "Pending", "Failed"
-  const [methodFilter, setMethodFilter] = useState("all"); // "all", "Online", "Bank Transfer", "Cash", "Paypal"
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [methodFilter, setMethodFilter] = useState("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +27,22 @@ const DonationDashboard = () => {
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/donations");
+        // Get the token from cookies
+        const token = Cookies.get("token");
+
+        if (!token) {
+          setError("No token found, please log in.");
+          setLoading(false);
+          return;
+        }
+
+        // Fetch donations from the API
+        const response = await axios.get("http://localhost:5000/api/admin/donations", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach the token in the header
+          },
+        });
+
         if (Array.isArray(response.data)) {
           setDonations(response.data);
 
@@ -54,6 +70,7 @@ const DonationDashboard = () => {
 
     fetchDonations();
   }, []);
+
 
   // تطبيق الفلاتر والبحث
   const filteredDonations = donations.filter((donation) => {
