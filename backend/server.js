@@ -6,6 +6,11 @@ const adsRoutes = require("./routes/beneficiaryRoutes");
 const BFYRoutes = require("./routes/BFYRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 // const adminRoutes = require('./routes/adminRoutes');
+const homeRoutes = require ('./routes/homeRoutes')
+const topDonors = require('./routes/topDonorRoutes');
+const chatRoutes = require ('./routes/chatRoutes')
+
+
 require("./models/associations");
 const cors = require("cors"); //new
 
@@ -14,15 +19,30 @@ const PORT = process.env.PORT || 5000;
 
 // ------------ Middlewares ------------
 app.use(express.json());
-app.use(cors()); //new
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, // Allow sending cookies
+  })
+); //new
 app.use("/api/users", userRoutes);
 app.use("/api/ads", adsRoutes);
 // app.use('/api/admin', adminRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/BFY", BFYRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello! Your Express server and Sequelize connection are working.");
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/home', homeRoutes);
+app.use('/api/top', topDonors);
+app.use("/api/boot", chatRoutes); 
+
+
+
+
+
+app.get('/', (req, res) => {
+    res.send('Hello! Your Express server and Sequelize connection are working.');
 });
 
 // ------------ Start Server & Database ------------
