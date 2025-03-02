@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function RegisterDonor() {
+function CardsDB() {
   return (
     <div>
       
     </div>
   )
 }
+
+export default CardsDB

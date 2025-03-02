@@ -13,11 +13,12 @@ import Home from './components/Home/Home';
 import Login from './components/LogIn/Login';
 import OrdersHistory from './components/OrdersHistory/OrdersHistory';
 import Payment from './components/Payment/Payment';
-import RegisterBenficiary from './components/RegisterBenficiary/RegisterBenficiary';
-import RegisterDonor from './components/RegisterDonor/RegisterDonor';
+import RegisterBenficiary from './components/RegisterBenficiary/RegisterBenficiaryy';
+import RegisterDonor from './components/RegisterDonor/RegisterDonorr';
 import SinglePage from './components/SinglePage/SinglePage';
 import TopDonations from './components/TopDontions/TopDonations';
 import ZakahCalculator from './components/ZakahCalculator/ZakahCalculator';
+import Footer from './components/Footer/Footer';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/top-donations" element={<TopDonations />} />
           <Route path="/zakah-calculator" element={<ZakahCalculator />} />
         </Routes>
+        <Footer/>
       </div>
     </Router>
   );
