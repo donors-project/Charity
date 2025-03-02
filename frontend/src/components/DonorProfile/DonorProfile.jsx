@@ -15,34 +15,66 @@ const [userInfo, setUserInfo] = useState(null);
 const [user,setUser]=useState(null);
 const [Announcements,setAnnouncements]=useState();
   const userid=useSelector((state)=>state.UID.userId);
+const dispatch=useDispatch();
 
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+      
+  //     try {
+        
+  //       const response = await axios.get(`http://localhost:5000/api/users/${userid}`);
+  //       setUserInfo(response.data);
+  //       setUser(response.data);
+        
+  //     } catch (err) {
+  //       setError("Failed to fetch user data.");
+  //     } 
+  //   };
+  //   const fetchAds=async () => {
+
+  //    const response=await axios.get(`http://localhost:5000/api/ads/${userid}`);
+  //        const verifiedAds = response.data.filter(ad => ad.verified === true);
+    
+  //   setAnnouncements(verifiedAds);
+  //   //  setAnnouncements(response.data);
+  //   }
+
+  //   if (userid) {
+  //     fetchUserData();
+  //     fetchAds();
+  //   }
+  // }, [userid]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        // Fetch the user ID from the token
+        const tokenResponse = await axios.get("http://localhost:5000/api/users/me", {
+          withCredentials: true, // Ensures cookies are sent
+        });
         
-        const response = await axios.get(`http://localhost:5000/api/users/${userid}`);
-        setUserInfo(response.data);
-        setUser(response.data);
+        const userId = tokenResponse.data.id; // Extract ID from token payload
+        console.log(userId);
+        dispatch(setId(userId)); // Store ID in Redux if needed
+
+        // Fetch user data from backend
+        const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+          withCredentials: true, // Ensures cookies are sent
+        });
+        setUserInfo(userResponse.data);
+        setUser(userResponse.data);
         
+
       } catch (err) {
-        setError("Failed to fetch user data.");
-      } 
+        console.error("Error fetching user:", err);
+      }
     };
-    const fetchAds=async () => {
 
-     const response=await axios.get(`http://localhost:5000/api/ads/${userid}`);
-         const verifiedAds = response.data.filter(ad => ad.verified === true);
-    
-    setAnnouncements(verifiedAds);
-    //  setAnnouncements(response.data);
-    }
+    fetchUserData();
+  }, [dispatch]);
 
-    if (userid) {
-      fetchUserData();
-      fetchAds();
-    }
-  }, [userid]);
+
+
 
 async function updateInfo(){
   try {

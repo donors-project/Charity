@@ -37,6 +37,7 @@ const beneficiarySlice = createSlice({
     loading: false,
     success: false,
     error: null,
+    userId: localStorage.getItem("uid"),
   },
   reducers: {
     resetState: (state) => {

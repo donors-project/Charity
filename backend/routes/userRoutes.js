@@ -2,12 +2,15 @@ const express = require("express");
 const userController = require("../controllers/userController");
 const { authenticate, authorize } = require("../middlewares/authMiddleware"); // Import auth middleware
 const upload = require("../middlewares/uploadMiddleware");
+const { getMe } = require("../controllers/userController");
 
 const router = express.Router();
 
 // Authentication Routes (Public)
 router.post("/signup", upload.single("image"), userController.signup);
 router.post("/signin", userController.signin); // Sign In
+
+router.get("/me", getMe);
 
 // User CRUD Routes (Protected)
 router.get("/", authenticate, authorize(["Admin"]), userController.getAllUsers); // Only Admin can view all users

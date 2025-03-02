@@ -28,13 +28,14 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+         credentials: "include",
       });
 
       const data = await response.json();
 
       if (response.ok) {
         // Store token in HTTP-only cookie
-        Cookies.set("token", data.token, { expires: 1 }); // Expires in 1 day
+        // Cookies.set("token", data.token, { expires: 1 }); // Expires in 1 day
 
         setMessage("Login successful! Redirecting...");
         setTimeout(() => {

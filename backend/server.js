@@ -4,6 +4,7 @@ const sequelize = require("./config/database");
 const userRoutes = require("./routes/userRoutes");
 const adsRoutes = require("./routes/beneficiaryRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const cookieParser = require("cookie-parser");
 // const adminRoutes = require('./routes/adminRoutes');
 require("./models/associations");
 const cors = require("cors"); //new
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 // ------------ Middlewares ------------
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -20,6 +22,7 @@ app.use(
   })
 ); //new
 app.use("/api/users", userRoutes);
+// app.use("/api/users", userRoutes);
 app.use("/api/ads", adsRoutes);
 // app.use('/api/admin', adminRoutes);
 app.use("/api/admin", adminRoutes);

@@ -66,27 +66,97 @@ const signup = async (req, res) => {
   }
 };
 
+// const signin = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
 
+//     // Check if user exists
+//     const user = await User.findOne({ where: { email } });
+
+//     if (!user) {
+//       console.log("User not found:", email);
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     console.log("Stored Hashed Password:", user.password);
+//     console.log("Entered Password:", password);
+
+//     // Compare passwords
+//     const isMatch = await bcrypt.compare(password, user.password);
+
+//     if (!isMatch) {
+//       console.log("Password comparison failed");
+//       return res.status(401).json({ message: "Invalid credentials" });
+//     }
+
+//     // Generate JWT token
+//     const token = jwt.sign(
+//       { id: user.id, role: user.role },
+//       process.env.JWT_SECRET,
+//       { expiresIn: "1h" }
+//     );
+
+//     console.log("Login Successful. Token:", token);
+
+//     res.status(200).json({ message: "Login successful", token });
+//   } catch (err) {
+//     console.error("Login Error:", err);
+//     res.status(500).json({ message: "Error logging in" });
+//   }
+// };
+
+// Update a user by ID
+
+// const signin = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     // Check if user exists
+//     const user = await User.findOne({ where: { email } });
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     // Compare passwords
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.status(401).json({ message: "Invalid credentials" });
+//     }
+
+//     // Generate JWT token
+//     const token = jwt.sign(
+//       { id: user.id, role: user.role },
+//       process.env.JWT_SECRET,
+//       { expiresIn: "1h" }
+//     );
+//         console.log("Generated Token:", token);
+
+//     // Set token in an HTTP-only cookie
+//     res.cookie("token", token, {
+//       httpOnly: true, // Prevent client-side access
+//       secure: false, // Set to true in production (HTTPS)
+//       sameSite: "lax", // Prevent CSRF issues
+//     });
+
+//     res.status(200).json({ message: "Login successful" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Error logging in" });
+//   }
+// };
 const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Check if user exists
     const user = await User.findOne({ where: { email } });
-
     if (!user) {
-      console.log("User not found:", email);
       return res.status(404).json({ message: "User not found" });
     }
 
-    console.log("Stored Hashed Password:", user.password);
-    console.log("Entered Password:", password);
-
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
-      console.log("Password comparison failed");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -97,17 +167,24 @@ const signin = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    console.log("Login Successful. Token:", token);
+    console.log("Generated Token:", token); // Debugging
 
-    res.status(200).json({ message: "Login successful", token });
+    // Set token in HTTP-only cookie
+    res.cookie("token", token, {
+      httpOnly: true, // Secure cookie
+      secure: false, // Set to true in production (HTTPS)
+      sameSite: "lax",
+    });
+
+    console.log("Cookies Sent:", res.getHeaders()["set-cookie"]); // Debugging
+
+    res.status(200).json({ message: "Login successful" });
   } catch (err) {
     console.error("Login Error:", err);
     res.status(500).json({ message: "Error logging in" });
   }
 };
 
-
-// Update a user by ID
 const updateUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
@@ -141,6 +218,19 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getMe = (req, res) => {
+  try {
+    console.log("Cookies:", req.cookies); // Debugging
+    const token = req.cookies.token; // Get token from cookies
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.json({ id: decoded.id }); // Send only the user ID
+  } catch (error) {
+    res.status(403).json({ message: "Invalid token" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -148,4 +238,5 @@ module.exports = {
   signin,
   updateUser,
   deleteUser,
+  getMe,
 };
