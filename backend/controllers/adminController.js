@@ -233,3 +233,31 @@ exports.generateReports = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
+
+  exports.getDonors = async (req, res) => {
+    try {
+      const donors = await Donor.findAll({
+        attributes: ['id', 'user_id', 'total_donated'],
+        include: [
+          {
+            model: User,
+            attributes: ['full_name', 'email', 'address', 'phone']
+          }
+        ]
+      });
+      res.status(200).json(donors);
+    } catch (error) {
+      console.error("Error fetching donors:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
+  // donorController.js
+exports.getSingleDonor = async (req, res) => {
+  const donorId = req.params.id;
+  const donor = await Donor.findByPk(donorId);
+  if (!donor) {
+    return res.status(404).json({ message: 'Donor not found' });
+  }
+  res.status(200).json(donor);
+};
