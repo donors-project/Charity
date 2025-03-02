@@ -17,7 +17,7 @@ const Navbar = () => {
         <li><Link to="/payment" className="hover:text-gray-200">Payment</Link></li>
         <li><Link to="/register-beneficiary" className="hover:text-gray-200">Register Beneficiary</Link></li>
         <li><Link to="/register-donor" className="hover:text-gray-200">Register Donor</Link></li>
-        <li><Link to="/single-page" className="hover:text-gray-200">Single Page</Link></li>
+        <li><Link to="/single-page/:id" className="hover:text-gray-200">Single Page</Link></li>
         <li><Link to="/top-donations" className="hover:text-gray-200">Top Donations</Link></li>
         <li><Link to="/zakah-calculator" className="hover:text-gray-200">Zakah Calculator</Link></li>
       </ul>

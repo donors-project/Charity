@@ -3,8 +3,10 @@ const Donation = require('../models/donation');
 const Beneficiary = require('../models/beneficiary');
 const Donor = require('../models/donor');
 const User = require('../models/user');
-
+const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
+const sequelize = require('../config/database');
+const cloudinary = require('../config/cloudinary');
 
 
 // adminController.js
@@ -233,3 +235,94 @@ exports.generateReports = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
+
+  exports.getDonors = async (req, res) => {
+    try {
+      const donors = await Donor.findAll({
+        attributes: ['id', 'user_id', 'total_donated'],
+        include: [
+          {
+            model: User,
+            attributes: ['full_name', 'email', 'address', 'phone']
+          }
+        ]
+      });
+      res.status(200).json(donors);
+    } catch (error) {
+      console.error("Error fetching donors:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
+  // donorController.js
+exports.getSingleDonor = async (req, res) => {
+  const donorId = req.params.id;
+  const donor = await Donor.findByPk(donorId);
+  if (!donor) {
+    return res.status(404).json({ message: 'Donor not found' });
+  }
+  res.status(200).json(donor);
+};
+
+
+exports.createUserAndBeneficiary = async (req, res) => {
+  const { full_name, email, password, role, address, phone, total_debt, reason, category } = req.body;
+  const identity_image = req.file ? req.file.path : null;  // Get the image path from the request if any
+
+  if (!category) {
+    return res.status(400).json({ message: 'Category is required' });
+  }
+
+  const t = await sequelize.transaction(); // Start a transaction
+
+  try {
+    // Step 1: Create User
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.create(
+      {
+        full_name,
+        email,
+        password: hashedPassword,
+        role,
+        address,
+        phone,
+      },
+      { transaction: t }
+    );
+
+    // Step 2: Handle Image Upload to Cloudinary
+    let cloudinaryImageUrl = null;
+    if (identity_image) {
+      const uploadResponse = await cloudinary.uploader.upload(identity_image, {
+        folder: 'beneficiaries_images',
+      });
+      cloudinaryImageUrl = uploadResponse.secure_url;
+    }
+
+    // Step 3: Create Beneficiary
+    const beneficiary = await Beneficiary.create(
+      {
+        user_id: user.id,
+        total_debt,
+        remaining_debt: total_debt,
+        reason,
+        category,
+        verified: null,
+        identity_image: cloudinaryImageUrl || null, 
+      },
+      { transaction: t }
+    );
+
+    // Commit the transaction
+    await t.commit();
+
+    return res.status(201).json({ message: 'User and Beneficiary created successfully', beneficiary });
+  } catch (err) {
+    // Rollback transaction in case of error
+    await t.rollback();
+    console.error(err);
+    return res.status(500).json({ message: 'Error creating User and Beneficiary', error: err.message });
+  }
+};
+
+
