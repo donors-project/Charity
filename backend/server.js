@@ -5,6 +5,9 @@ const sequelize = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const homeRoutes = require('./routes/homeRoutes');
+const topDonors = require('./routes/topDonorRoutes')
+const chatRoutes = require("./routes/chatRoutes");
+
 
 
 const cors = require('cors');
@@ -19,6 +22,10 @@ app.use(cors());
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/home', homeRoutes);
+app.use('/api/top', topDonors);
+app.use("/api/boot", chatRoutes); 
+
+
 
 
 

@@ -16,9 +16,9 @@ import Payment from './components/Payment/Payment';
 import RegisterBenficiary from './components/RegisterBenficiary/RegisterBenficiary';
 import RegisterDonor from './components/RegisterDonor/RegisterDonor';
 import SinglePage from './components/SinglePage/SinglePage';
-import TopDonations from './components/TopDontions/TopDonations';
 import ZakahCalculator from './components/ZakahCalculator/ZakahCalculator';
 import Footer from './components/Footer/Footer';
+import TopDonors from './components/TopDontions/TopDonors';
 
 const App = () => {
   return (
@@ -39,7 +39,7 @@ const App = () => {
           <Route path="/register-beneficiary" element={<RegisterBenficiary />} />
           <Route path="/register-donor" element={<RegisterDonor />} />
           <Route path="/single-page" element={<SinglePage />} />
-          <Route path="/top-donations" element={<TopDonations />} />
+          <Route path="/top-donations" element={<TopDonors />} />
           <Route path="/zakah-calculator" element={<ZakahCalculator />} />
         </Routes>
         <Footer/>
