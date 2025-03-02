@@ -5,6 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const adsRoutes = require("./routes/beneficiaryRoutes");
 const BFYRoutes = require("./routes/BFYRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const contactRoutes = require("./routes/contactRoutes"); // Import the contact routes
 // const adminRoutes = require('./routes/adminRoutes');
 const homeRoutes = require ('./routes/homeRoutes')
 const topDonors = require('./routes/topDonorRoutes');
@@ -29,6 +30,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/ads", adsRoutes);
 // app.use('/api/admin', adminRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/contact", contactRoutes);  // Add the contact route
 app.use("/api/BFY", BFYRoutes);
 
 app.use('/api/users', userRoutes);
