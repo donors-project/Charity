@@ -13,7 +13,12 @@ const PORT = process.env.PORT || 5000;
 
 // ------------ Middlewares ------------
 app.use(express.json());
-app.use(cors()); //new
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, // Allow sending cookies
+  })
+); //new
 app.use("/api/users", userRoutes);
 app.use("/api/ads", adsRoutes);
 // app.use('/api/admin', adminRoutes);
