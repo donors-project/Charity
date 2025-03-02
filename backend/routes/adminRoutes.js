@@ -7,7 +7,7 @@ const {
   generateReports,
   getBeneficiaries,
   getSingleBeneficiary,
-  getSingleUser // <--- import from adminController
+  getSingleUser 
 } = require('../controllers/adminController');
 
 router.get('/donations', getDonorContributions);
@@ -20,5 +20,4 @@ router.get('/beneficiaries/:id', getSingleBeneficiary);
 
 // **Add single user route** (with admin controller):
 router.get('/users/:userId', getSingleUser);
-
 module.exports = router;
