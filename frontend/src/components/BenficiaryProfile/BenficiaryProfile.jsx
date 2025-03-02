@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 import { setId } from "../../redux/userSlice";
 
+import Swal from "sweetalert2";
 import axios from 'axios';
 
 
@@ -31,7 +32,10 @@ const [Announcements,setAnnouncements]=useState();
     const fetchAds=async () => {
 
      const response=await axios.get(`http://localhost:5000/api/ads/${userid}`);
-     setAnnouncements(response.data);
+         const verifiedAds = response.data.filter(ad => ad.verified === true);
+    
+    setAnnouncements(verifiedAds);
+    //  setAnnouncements(response.data);
     }
 
     if (userid) {
@@ -41,11 +45,32 @@ const [Announcements,setAnnouncements]=useState();
   }, [userid]);
 
 async function updateInfo(){
-const response=await axios.put(`http://localhost:5000/api/users/${userid}`,user);
-// setUser(null);
-// setUserInfo(response.data);
-    setUser(response.data); // Update the local `user` state
-    setUserInfo(response.data); // Update the `userInfo` state with the latest data
+  try {
+    const response=await axios.put(`http://localhost:5000/api/users/${userid}`,user);
+    // setUser(null);
+    // setUserInfo(response.data);
+        setUser(response.data); // Update the local `user` state
+        setUserInfo(response.data); // Update the `userInfo` state with the latest data
+         Swal.fire({
+      title: "Success!",
+      text: "User updated successfully",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+
+    
+  } catch (error) {
+     console.error("Error updating user:", error);
+    
+    // إظهار SweetAlert عند حدوث خطأ
+    Swal.fire({
+      title: "Error!",
+      text: "Failed to update user",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    
+  }
 
 
 }
@@ -246,122 +271,65 @@ const announcements=Announcements;
         </div>
       )
     }
-    {announcements?(
-        <div className="bg-white rounded-xl shadow-xl p-8 transition-all duration-500 hover:shadow-2xl">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-bold text-[#727D73]">Your Announcements</h2>
-              <div className="h-1 w-16 bg-[#AAB99A] rounded-full transition-all duration-500 hover:w-24"></div>
+{announcements && announcements.length > 0 ? (
+  <div className="bg-white rounded-xl shadow-xl p-8 transition-all duration-500 hover:shadow-2xl">
+    <div className="mb-8">
+      <div className="flex items-center gap-4">
+        <h2 className="text-2xl font-bold text-[#727D73]">Your Announcement</h2>
+        <div className="h-1 w-16 bg-[#AAB99A] rounded-full transition-all duration-500 hover:w-24"></div>
+      </div>
+    </div>
+    
+    {/* Single Card Display */}
+    <div className="flex justify-center">
+      <div className="w-full max-w-md group">
+        <div className="h-full bg-white rounded-xl overflow-hidden shadow-md transition-all duration-500 group-hover:shadow-xl transform group-hover:-translate-y-2">
+          {/* Card Image with Overlay Gradient */}
+          <div className="relative h-40 overflow-hidden">
+            <img 
+              src={announcements[0].image}
+              alt={announcements[0].reason} 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+            
+            {/* Status Badge */}
+            <div className="absolute top-4 right-4">
+              <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getStatusColor(announcements[0].verified)}`}>
+                {announcements[0].verified}
+              </span>
+            </div>
+          </div>
+          
+          {/* Card Content */}
+          <div className="p-5">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-lg font-semibold text-[#727D73] transition-all duration-300 group-hover:text-[#AAB99A]">
+                {announcements[0].reason}
+              </h3>
+              <span className="text-xs text-gray-500">{announcements[0].created_at}</span>
             </div>
             
-            {/* Enhanced Navigation Buttons */}
-            <div className="flex gap-3">
-              <button 
-                onClick={() => scroll('left')}
-                className={`p-3 rounded-full transition-all duration-300 ${activeCardIndex === 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#D0DDD0] text-[#727D73] hover:bg-[#AAB99A] hover:text-white transform hover:scale-110 hover:shadow-md'}`}
-                disabled={activeCardIndex === 0}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              </button>
-              <button 
-                onClick={() => scroll('right')}
-                className={`p-3 rounded-full transition-all duration-300 ${activeCardIndex === 5 - 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#D0DDD0] text-[#727D73] hover:bg-[#AAB99A] hover:text-white transform hover:scale-110 hover:shadow-md'}`}
-                disabled={activeCardIndex === 5 - 1}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                </svg>
-              </button>
+            <p className="text-sm text-gray-600 mb-4">
+              {announcements[0].total_debt}
+            </p>
+            
+            <div className="flex justify-between items-center">
+              <div className="relative overflow-hidden">
+                <button className="text-sm font-medium px-4 py-1.5 rounded-lg bg-[#D0DDD0] text-[#727D73] transition-all duration-300 group-hover:bg-[#AAB99A] group-hover:text-white">
+                  View Details
+                </button>
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#727D73] transition-all duration-500 group-hover:w-full"></div>
+              </div>
             </div>
           </div>
-          
-          {/* Modernized Card Slider */}
-          <div 
-            ref={sliderRef}
-            className="flex overflow-x-auto pb-8 gap-6 scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {announcements.map((item, index) => (
-              <div 
-                key={item.id}
-                className="flex-none w-72 group"
-              >
-                <div className="h-full bg-white rounded-xl overflow-hidden shadow-md transition-all duration-500 group-hover:shadow-xl transform group-hover:-translate-y-2">
-                  {/* Card Image with Overlay Gradient */}
-                  <div className="relative h-40 overflow-hidden">
-                    <img 
-                      src={item.image}
-                      alt={item.reason} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-                    
-                    {/* Status Badge */}
-                    <div className="absolute top-4 right-4">
-                      <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getStatusColor(item.verified)}`}>
-                        {item.verified}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {/* Card Content */}
-                  <div className="p-5">
-                    <div className="flex justify-between items-center mb-3">
-                      <h3 className="text-lg font-semibold text-[#727D73] transition-all duration-300 group-hover:text-[#AAB99A]">
-                        {item.reason}
-                      </h3>
-                      <span className="text-xs text-gray-500">{item.created_at}</span>
-                    </div>
-                    
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                      {item.total_debt}
-                    </p>
-                    
-                    <div className="flex justify-between items-center">
-                      {/* <span className="text-sm font-medium text-[#727D73]">
-                        {item.responses} Responses
-                      </span> */}
-                      
-                      <div className="relative overflow-hidden">
-                        <button className="text-sm font-medium px-4 py-1.5 rounded-lg bg-[#D0DDD0] text-[#727D73] transition-all duration-300 group-hover:bg-[#AAB99A] group-hover:text-white">
-                          View Details
-                        </button>
-                        <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#727D73] transition-all duration-500 group-hover:w-full"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Improved Dot Indicators */}
-          <div className="flex justify-center space-x-2">
-            {announcements.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setActiveCardIndex(index);
-                  if (sliderRef.current) {
-                    sliderRef.current.scrollTo({
-                      left: index * 320,
-                      behavior: 'smooth'
-                    });
-                  }
-                }}
-                className={`transition-all duration-300 rounded-full border ${
-                  index === activeCardIndex 
-                    ? 'w-8 h-2 bg-[#727D73] border-[#727D73]' 
-                    : 'w-2 h-2 bg-[#D0DDD0] border-[#AAB99A] hover:bg-[#AAB99A]'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>)
-    :<h2>theres is no ads</h2>}
+        </div>
+      </div>
+    </div>
+  </div>
+) : (
+  <h2>There is no announcement</h2>
+)}
         {/* Announcements Section */}
       </div>
     </div>
