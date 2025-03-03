@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const JWT_SECRET = process.env.JWT_SECRET; // Use JWT_SECRET for better consistency
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// Middleware to verify JWT Token
+
 const authenticate = (req, res, next) => {
   const authHeader = req.header("Authorization");
 
@@ -13,19 +13,19 @@ const authenticate = (req, res, next) => {
       .json({ message: "Access Denied! No valid token provided." });
   }
 
-  const token = authHeader.split(" ")[1]; // Extract token after "Bearer"
+  const token = authHeader.split(" ")[1]; 
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; // Attach user data to request
+    req.user = decoded;
     next();
   } catch (error) {
-    console.error("Authentication error:", error.message); // Log error for debugging
+    console.error("Authentication error:", error.message);
     return res.status(403).json({ message: "Unauthorized access!" });
   }
 };
 
-// Middleware for role-based access control
+
 const authorize = (roles) => (req, res, next) => {
   if (!req.user || !roles.includes(req.user.role)) {
     return res

@@ -1,37 +1,9 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-
-// const Navbar = () => {
-//   return (
-//     <nav className="bg-blue-500 text-white p-4">
-//       <ul className="flex space-x-4">
-//         <li><Link to="/" className="hover:text-gray-200">Home</Link></li>
-//         <li><Link to="/about" className="hover:text-gray-200">About</Link></li>
-//         <li><Link to="/admin" className="hover:text-gray-200">Admin</Link></li>
-//         <li><Link to="/announcements" className="hover:text-gray-200">Announcements</Link></li>
-//         <li><Link to="/contact" className="hover:text-gray-200">Contact</Link></li>
-//         <li><Link to="/beneficiary-profile" className="hover:text-gray-200">Beneficiary Profile</Link></li>
-//         <li><Link to="/donor-profile" className="hover:text-gray-200">Donor Profile</Link></li>
-//         <li><Link to="/login" className="hover:text-gray-200">Login</Link></li>
-//         <li><Link to="/orders-history" className="hover:text-gray-200">Orders History</Link></li>
-//         <li><Link to="/payment" className="hover:text-gray-200">Payment</Link></li>
-//         <li><Link to="/register-beneficiary" className="hover:text-gray-200">Register Beneficiary</Link></li>
-        // <li><Link to="/register-donor" className="hover:text-gray-200">Register Donor</Link></li>
-//         <li><Link to="/single-page/:id" className="hover:text-gray-200">Single Page</Link></li>
-//         <li><Link to="/top-donations" className="hover:text-gray-200">Top Donations</Link></li>
-//         <li><Link to="/zakah-calculator" className="hover:text-gray-200">Zakah Calculator</Link></li>
-//       </ul>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;
-
 import React, { useState, useEffect } from "react";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User } from "lucide-react"; 
 import { Link } from "react-router-dom";
 import logo from "../Assets/logo.png";
 import axios from "axios";
+import Cookies from "js-cookie"; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,20 +13,19 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const tokenResponse = await axios.get("http://localhost:5000/api/users/me", {
-          withCredentials: true,
-        });
+        const token = Cookies.get("token");
+        if (token) {
+          const tokenResponse = await axios.get("http://localhost:5000/api/users/me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        const userId = tokenResponse.data.id;
-        const userRole = tokenResponse.data.role;
-        console.log(userRole,userId);
-
-        const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`, {
-          withCredentials: true,
-        });
-
-        setUser(userId);
-        setRole(userRole || userResponse.data.role);
+          const userId = tokenResponse.data.id;
+          const userRole = tokenResponse.data.role;
+          setRole(userRole);
+          setUser(userId);
+        }
       } catch (err) {
         console.error("Error fetching user:", err);
       }
@@ -68,6 +39,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
+    Cookies.remove("token");
     setUser(null);
     setRole(null);
   };
@@ -88,13 +60,11 @@ const Navbar = () => {
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          {/* Logo and Navigation */}
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
               <img src={logo} alt="شعار الموقع" className="h-50 w-50 rounded-full mb-7" />
             </div>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:ml-6 md:flex md:space-x-6 md:space-x-reverse">
               {navLinks.map((link) => (
                 <a
@@ -112,7 +82,6 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Authentication Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {!user ? (
               <Link
@@ -136,19 +105,14 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-[#727D73] hover:text-[#5A645B] hover:bg-gray-100 focus:outline-none"
-            >
+            <button onClick={toggleMenu} className="inline-flex items-center justify-center p-2 rounded-md text-[#727D73] hover:text-[#5A645B] hover:bg-gray-100 focus:outline-none">
               {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -197,4 +161,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
