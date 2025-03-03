@@ -9,7 +9,8 @@ const {
   getSingleUser,
   getDonors,
   getSingleDonor,
-  createUserAndBeneficiary  
+  createUserAndBeneficiary,
+  getContactUsMessages   
 } = require('../controllers/adminController');
 const upload = require('../middlewares/uploadMiddleware');
 const { authenticate, authorize } = require('../middlewares/authMiddleware');
@@ -23,6 +24,7 @@ router.get('/donors', getDonors);
 router.get('/donors/:id', getSingleDonor);
 router.get('/beneficiaries/:id', getSingleBeneficiary);
 router.post('/create', authenticate, authorize(['Admin']), upload.single('identity_image'), createUserAndBeneficiary);
+router.get('/contact-us', authenticate, authorize(['Admin']), getContactUsMessages);
 
 router.get('/users/:userId', getSingleUser);
 

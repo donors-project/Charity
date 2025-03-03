@@ -122,7 +122,7 @@ const DonationDashboard = () => {
 
     const rows = filteredDonations.map((d) => [
       d.donor_id,
-      `${d.amount} ريال`,
+      `${d.amount} دينار`,
       d.payment_method,
       d.payment_status,
       new Date(d.payment_date).toLocaleDateString("en-GB"), // تنسيق dd/mm/yyyy
@@ -169,7 +169,7 @@ const DonationDashboard = () => {
         </div>
         <div className="bg-white p-6 rounded-lg shadow border-r-4 border-green-500">
           <p className="text-gray-500 text-sm">متوسط التبرع</p>
-          <p className="font-bold text-2xl">{stats.averageDonation} ريال</p>
+          <p className="font-bold text-2xl">{stats.averageDonation} دينار</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow border-r-4 border-purple-500">
           <p className="text-gray-500 text-sm">المدفوعات المكتملة</p>
@@ -293,7 +293,7 @@ const DonationDashboard = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900 font-medium">{donation.amount} ريال</div>
+                    <div className="text-sm text-gray-900 font-medium">{donation.amount} دينار</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">{donation.payment_method}</div>

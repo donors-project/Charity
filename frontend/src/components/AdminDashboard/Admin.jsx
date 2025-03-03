@@ -7,6 +7,7 @@ import CreateUserAndBeneficiary from "./CreateUserAndBeneficiary"; // Import the
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"; // Import js-cookie for handling cookies
+import ContactUsMessages from "./ContactUsMessages"; // Import the new component
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("donations");
@@ -55,6 +56,8 @@ export default function Admin() {
         return <ReportGeneration />;
       case "create-beneficiary":
         return <CreateUserAndBeneficiary />;
+        case "contact-us":
+          return <ContactUsMessages />; // Render Contact Us Messages  
       default:
         return <DonationDashboard />; // Default to donation dashboard if no valid tab is selected
     }
@@ -150,6 +153,20 @@ export default function Admin() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   انشاء مستفيد
+                </span>
+              </button>
+                            {/* Add the Contact Us Tab */}
+                            <button
+                className={`py-4 px-6 font-medium text-sm transition-colors duration-200 ease-in-out ${
+                  activeTab === "contact-us" ? "border-b-2 border-green-500 text-green-900" : "text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+                onClick={() => setActiveTab("contact-us")}
+              >
+                <span className="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                  </svg>
+                  الرسائل
                 </span>
               </button>
             </nav>

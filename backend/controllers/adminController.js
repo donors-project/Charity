@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
 const sequelize = require('../config/database');
 const cloudinary = require('../config/cloudinary');
-
+const ContactUs = require('../models/contactUs'); 
 
 // adminController.js
 exports.getSingleUser = async (req, res) => {
@@ -325,4 +325,12 @@ exports.createUserAndBeneficiary = async (req, res) => {
   }
 };
 
-
+exports.getContactUsMessages = async (req, res) => {
+  try {
+    const messages = await ContactUs.findAll();
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error("Error fetching contact messages:", error);
+    res.status(500).json({ message: "Error fetching contact messages." });
+  }
+};

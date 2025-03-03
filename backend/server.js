@@ -10,6 +10,7 @@ const contactRoutes = require("./routes/contactRoutes"); // Import the contact r
 const homeRoutes = require ('./routes/homeRoutes')
 const topDonors = require('./routes/topDonorRoutes');
 const chatRoutes = require ('./routes/chatRoutes')
+const donationRoutes = require("./routes/donationRoutes");
 
 
 require("./models/associations");
@@ -32,6 +33,7 @@ app.use("/api/ads", adsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/contact", contactRoutes);  // Add the contact route
 app.use("/api/BFY", BFYRoutes);
+app.use("/api", donationRoutes);
 
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
