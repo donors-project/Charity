@@ -130,14 +130,14 @@ const ViewDetailsModal = ({ isOpen, onClose, user, beneficiary }) => {
                       <p className="text-sm text-blue-600 font-medium mb-1">إجمالي الدين</p>
                       <p className="text-2xl font-bold text-blue-700 ltr:text-left rtl:text-right">
                         {(+beneficiary.total_debt).toLocaleString("ar-SA")}
-                        <span className="text-sm font-normal mr-1">ريال</span>
+                        <span className="text-sm font-normal mr-1">دينار</span>
                       </p>
                     </div>
                     <div className="bg-green-50 rounded-lg p-4 text-center">
                       <p className="text-sm text-green-600 font-medium mb-1">المتبقي من الدين</p>
                       <p className="text-2xl font-bold text-green-700 ltr:text-left rtl:text-right">
                         {(+beneficiary.remaining_debt).toLocaleString("ar-SA")}
-                        <span className="text-sm font-normal mr-1">ريال</span>
+                        <span className="text-sm font-normal mr-1">دينار</span>
                       </p>
                     </div>
                   </div>

@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken"); // For decoding the token
 
 // Function to add a new donation
 const addDonation = async (req, res) => {
-  const { debtor_id, amount, payment_method, payment_status } = req.body; // Use debtor_id as per the model
+  const { debtor_id, amount, payment_method, payment_status } = req.body; // debtor_id should match Beneficiary id
 
   try {
     // Extract the token from the header
@@ -22,8 +22,8 @@ const addDonation = async (req, res) => {
       return res.status(401).json({ error: "Invalid or expired token" });
     }
 
-    // Extract the donor_id from the token payload (using the `id` field)
-    const donor_id = decodedToken.id; // Updated to use `id` instead of `donor_id`
+    // Get the user's id from the token payload
+    const userId = decodedToken.id;
 
     // Check if the user is a donor
     if (decodedToken.role !== "donor") {
@@ -32,22 +32,22 @@ const addDonation = async (req, res) => {
         .json({ error: "Access denied. Only donors can create donations." });
     }
 
-    // Check if donor exists
-    const donor = await Donor.findByPk(donor_id);
-    if (!donor) {
+    // Instead of using the token id as donor id, find the donor record by matching the user_id
+    const donorRecord = await Donor.findOne({ where: { user_id: userId } });
+    if (!donorRecord) {
       return res.status(404).json({ error: "Donor not found" });
     }
 
     // Check if beneficiary exists
-    const beneficiary = await Beneficiary.findByPk(debtor_id); // Use debtor_id as per the model
+    const beneficiary = await Beneficiary.findByPk(debtor_id); // debtor_id as provided
     if (!beneficiary) {
       return res.status(404).json({ error: "Beneficiary not found" });
     }
 
-    // Create a new donation
+    // Create a new donation using donorRecord.id as the donor_id
     const newDonation = await Donation.create({
-      donor_id,
-      debtor_id, // Use debtor_id as per the model
+      donor_id: donorRecord.id,  // Use the donor record's primary key
+      debtor_id,                // as provided in the request
       amount,
       payment_method,
       payment_status,
