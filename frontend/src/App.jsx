@@ -13,8 +13,8 @@ import Home from './components/Home/Home';
 import Login from './components/LogIn/Login';
 import OrdersHistory from './components/OrdersHistory/OrdersHistory';
 import Payment from './components/Payment/Payment';
-import RegisterBenficiary from './components/RegisterBenficiary/RegisterBenficiaryy';
-import RegisterDonor from './components/RegisterDonor/RegisterDonorr';
+import RegisterBenficiary from './components/RegisterBenficiary/RegisterBenficiary';
+import RegisterDonor from './components/RegisterDonor/RegisterDonor';
 import SinglePage from './components/SinglePage/SinglePage';
 import ZakahCalculator from './components/ZakahCalculator/ZakahCalculator';
 import Footer from './components/Footer/Footer';
@@ -36,13 +36,16 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/orders-history" element={<OrdersHistory />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/register-beneficiary" element={<RegisterBenficiary />} />
+          <Route
+            path="/register-beneficiary"
+            element={<RegisterBenficiary />}
+          />
           <Route path="/register-donor" element={<RegisterDonor />} />
           <Route path="/single-page/:id" element={<SinglePage />} />
           <Route path="/top-donations" element={<TopDonors />} />
           <Route path="/zakah-calculator" element={<ZakahCalculator />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </div>
     </Router>
   );

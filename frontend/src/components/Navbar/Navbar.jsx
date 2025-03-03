@@ -27,33 +27,62 @@
 
 // export default Navbar;
 
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../Assets/logo.png";
+import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const tokenResponse = await axios.get("http://localhost:5000/api/users/me", {
+          withCredentials: true,
+        });
+
+        const userId = tokenResponse.data.id;
+        const userRole = tokenResponse.data.role;
+        console.log(userRole,userId);
+
+        const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+          withCredentials: true,
+        });
+
+        setUser(userId);
+        setRole(userRole || userResponse.data.role);
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setUser(null);
+    setRole(null);
   };
 
   const navLinks = [
     { name: "الرئيسية", href: "/" },
     { name: "حاسبة الزكاة", href: "/zakah-calculator" },
     { name: "فرص التبرع", href: "/announcements" },
-    // { name: "بروفايل المتبرع", href: "/donor-profile" },
-    // { name: "بروفايل المستفيد", href: "/beneficiary-profile" },
     { name: "عن الموقع", href: "/about" },
     { name: "اتصل بنا", href: "/contact" },
   ];
+
+  if (role === "Admin") {
+    navLinks.push({ name: "لوحة تحكم", href: "/admin" });
+  }
 
   return (
     <nav className="bg-white shadow-md">
@@ -62,7 +91,7 @@ const Navbar = () => {
           {/* Logo and Navigation */}
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
-              <img src={logo} alt="شعار الموقع" className="h-30 w-30 rounded-full" />
+              <img src={logo} alt="شعار الموقع" className="h-50 w-50 rounded-full mb-7" />
             </div>
 
             {/* Desktop Navigation */}
@@ -85,8 +114,7 @@ const Navbar = () => {
 
           {/* Authentication Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            {!isLoggedIn ? (
-              // زر تسجيل الدخول
+            {!user ? (
               <Link
                 to="/login"
                 className="px-4 py-2 border border-[#727D73] rounded-md text-[#727D73] hover:bg-[#727D73] hover:text-white transition duration-300"
@@ -94,15 +122,14 @@ const Navbar = () => {
                 تسجيل الدخول
               </Link>
             ) : (
-              // زر تسجيل الخروج وأيقونة الملف الشخصي
               <div className="flex items-center space-x-4">
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2 border border-red-500 rounded-md text-red-500 hover:bg-red-500 hover:text-white transition duration-300"
+                  className="px-4 py-2 border border-[#727D73] rounded-md text-[#727D73] hover:bg-[#727D73] hover:text-white transition duration-300"
                 >
                   تسجيل الخروج
                 </button>
-                <Link to="/profile">
+                <Link to={role === "donor" ? "/donor-profile" : "/beneficiary-profile"}>
                   <User className="h-8 w-8 text-[#727D73] hover:text-[#5A645B] cursor-pointer" />
                 </Link>
               </div>
@@ -138,7 +165,7 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
-            {!isLoggedIn ? (
+            {!user ? (
               <Link
                 to="/login"
                 className="block w-full mt-3 px-3 py-2 border border-[#727D73] rounded-md text-[#727D73] hover:bg-[#727D73] hover:text-white transition duration-300 text-center"
@@ -153,7 +180,11 @@ const Navbar = () => {
                 >
                   تسجيل الخروج
                 </button>
-                <Link to="/profile" className="flex justify-center">
+
+                <Link
+                  to={role === "donor" ? "/donor-profile" : "/beneficiary-profile"}
+                  className="flex justify-center"
+                >
                   <User className="h-8 w-8 text-[#727D73] hover:text-[#5A645B] cursor-pointer" />
                 </Link>
               </div>
@@ -166,3 +197,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

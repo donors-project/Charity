@@ -5,7 +5,7 @@ import userIdSlice from "./redux/userSlice";
 const store = configureStore({
   reducer: {
     UID:userIdSlice,
-    donation: donationReducer,
+    // donation: donationReducer,
   },
 });
 

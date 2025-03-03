@@ -28,7 +28,7 @@ function ChatBot() {
     <>
       {/* Chatbot Button */}
       <div onClick={() => setIsChatOpen(!isChatOpen)} className="fixed bottom-10 right-10 bg-[#F0F0D7] p-4 rounded-full shadow-lg cursor-pointer transition duration-300 hover:bg-[#AAB98A]">
-        <span className="text-white text-2xl">👽</span>
+        <span className="text-white text-2xl">🤖</span>
       </div>
 
       {/* Chatbot Box */}
