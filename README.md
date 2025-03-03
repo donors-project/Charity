@@ -3,15 +3,8 @@ Welcome to the **Charity Donation & Assistance Management System!** This project
 
 ---
 
-## **👨‍💻 About The Team**  
-
-- **Rana Salameh**: Scrum Master  
-- **Hasan Mansour**: Product Owner  
-- **Mohammad Sarrawi**: QA Specialist  
-- **Jenan Faraj**: Developer  
-- **Ali Abuhassan**: Developer  
-- **Ahmad Al-Tarawneh**: Developer  
-- **Ramzi Zamil**: Developer  
+## 👨‍💻 About Me  
+I'm Hasan Omar Hasan Mansour, a passionate MERN-Stack Developer & Java Developer. I love building innovative web applications that deliver seamless user experiences.
 
 ---
 
