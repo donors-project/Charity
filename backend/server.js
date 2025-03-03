@@ -6,15 +6,14 @@ const adsRoutes = require("./routes/beneficiaryRoutes");
 const BFYRoutes = require("./routes/BFYRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const cookieParser = require("cookie-parser");
-const contactRoutes = require("./routes/contactRoutes"); // Import the contact routes
-// const adminRoutes = require('./routes/adminRoutes');
+const contactRoutes = require("./routes/contactRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const topDonors = require("./routes/topDonorRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const donationRoutes = require("./routes/donationRoutes");
 
 require("./models/associations");
-const cors = require("cors"); //new
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,15 +24,13 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:5173",
-    credentials: true, // Allow sending cookies
+    credentials: true,
   })
-); //new
+);
 app.use("/api/users", userRoutes);
-// app.use("/api/users", userRoutes);
 app.use("/api/ads", adsRoutes);
-// app.use('/api/admin', adminRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/contact", contactRoutes); // Add the contact route
+app.use("/api/contact", contactRoutes);
 app.use("/api/BFY", BFYRoutes);
 app.use("/api", donationRoutes);
 

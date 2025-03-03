@@ -267,13 +267,14 @@ exports.getSingleDonor = async (req, res) => {
 
 exports.createUserAndBeneficiary = async (req, res) => {
   const { full_name, email, password, role, address, phone, total_debt, reason, category } = req.body;
-  const identity_image = req.file ? req.file.path : null;  // Get the image path from the request if any
+  const identity_image = req.file ? req.file.path : null; 
 
   if (!category) {
     return res.status(400).json({ message: 'Category is required' });
   }
 
-  const t = await sequelize.transaction(); // Start a transaction
+  //  Step 0: Start a transaction
+  const t = await sequelize.transaction(); 
 
   try {
     // Step 1: Create User

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const CreateUserAndBeneficiary = () => {
   const [full_name, setFullName] = useState('');
@@ -20,7 +21,7 @@ const CreateUserAndBeneficiary = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     const formData = new FormData();
     formData.append('full_name', full_name);
     formData.append('email', email);
@@ -34,16 +35,25 @@ const CreateUserAndBeneficiary = () => {
     if (identity_image) {
       formData.append('identity_image', identity_image);
     }
-  
+
+    // Get token from cookies
+    const token = Cookies.get('token');
+
+    if (!token) {
+      setError('Please log in first!');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/api/admin/create', formData, {
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
       setSuccessMessage(response.data.message);
       setError('');
-      // Clear form fields after successful submission
       resetForm();
     } catch (err) {
       setError('حدث خطأ أثناء إنشاء المستفيد');
