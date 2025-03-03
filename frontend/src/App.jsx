@@ -36,13 +36,16 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/orders-history" element={<OrdersHistory />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/register-beneficiary" element={<RegisterBenficiary />} />
+          <Route
+            path="/register-beneficiary"
+            element={<RegisterBenficiary />}
+          />
           <Route path="/register-donor" element={<RegisterDonor />} />
           <Route path="/single-page/:id" element={<SinglePage />} />
-          <Route path="/top-donations" element={<TopDonations />} />
+          <Route path="/top-donations" element={<TopDonors />} />
           <Route path="/zakah-calculator" element={<ZakahCalculator />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </div>
     </Router>
   );

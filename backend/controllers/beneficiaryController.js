@@ -31,7 +31,7 @@ const createBeneficiary = async (req, res) => {
       reason,
       identity_image,
       category,
-      verified: false,
+      verified: null,
     });
 
     res
