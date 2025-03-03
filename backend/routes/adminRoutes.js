@@ -10,7 +10,7 @@ const {
   getDonors,
   getSingleDonor,
   createUserAndBeneficiary,
-  getContactUsMessages   
+  getContactUsMessages,   
 } = require('../controllers/adminController');
 const upload = require('../middlewares/uploadMiddleware');
 const { authenticate, authorize } = require('../middlewares/authMiddleware');

@@ -2,6 +2,7 @@ const express = require("express");
 const userController = require("../controllers/userController");
 const { authenticate, authorize } = require("../middlewares/authMiddleware"); // Import auth middleware
 const upload = require("../middlewares/uploadMiddleware");
+const { getMe, getUserDonations } = require("../controllers/userController");
 
 const router = express.Router();
 
@@ -9,6 +10,8 @@ const router = express.Router();
 router.post("/signup", upload.single("image"), userController.signup);
 router.post("/signin", userController.signin); // Sign In
 
+router.get("/me", getMe);
+router.get("/:id/donations", authenticate, getUserDonations);
 // User CRUD Routes (Protected)
 router.get("/", authenticate, authorize(["Admin"]), userController.getAllUsers); // Only Admin can view all users
 router.get("/:id", authenticate, userController.getUserById); // Any logged-in user can view their own data
