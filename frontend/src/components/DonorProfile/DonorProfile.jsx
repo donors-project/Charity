@@ -13,6 +13,8 @@ const DonorProfile = () => {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
 const [userInfo, setUserInfo] = useState(null);
 const [user,setUser]=useState(null);
+const [donations, setDonations] = useState([]);
+
 const [Announcements,setAnnouncements]=useState();
   const userid=useSelector((state)=>state.UID.userId);
 const dispatch=useDispatch();
@@ -63,6 +65,14 @@ const dispatch=useDispatch();
         });
         setUserInfo(userResponse.data);
         setUser(userResponse.data);
+
+          const donationsResponse = await axios.get(`http://localhost:5000/api/users/${userId}/donations`, {
+        withCredentials: true,
+      });
+      console.log("User Donations:", donationsResponse.data);
+      
+      // Store donations in state
+      setDonations(donationsResponse.data);
         
 
       } catch (err) {
@@ -78,7 +88,9 @@ const dispatch=useDispatch();
 
 async function updateInfo(){
   try {
-    const response=await axios.put(`http://localhost:5000/api/users/${userid}`,user);
+    
+    const response=await axios.put(`http://localhost:5000/api/users/${userid}`,user, 
+    {withCredentials: true});
     // setUser(null);
     // setUserInfo(response.data);
         setUser(response.data); // Update the local `user` state
@@ -107,7 +119,7 @@ async function updateInfo(){
 
 }
 
-const announcements=Announcements;
+// const announcements=Announcements;
 
   // Sample announcements data
   // const announcements = [
@@ -293,12 +305,12 @@ const announcements=Announcements;
     )}
 
     {/* Announcements Section - Modified style but kept colors */}
-    {announcements && announcements.length > 0 ? (
+    {donations && donations.length > 0 ? (
       <div className="bg-white rounded-2xl shadow-xl p-8 transition-all duration-500 hover:shadow-2xl border-t-4 border-[#AAB99A]">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h2 className="text-2xl font-bold text-[#727D73] border-b-2 border-[#AAB99A] pb-1">Your Announcements</h2>
+              <h2 className="text-2xl font-bold text-[#727D73] border-b-2 border-[#AAB99A] pb-1">Your Donations</h2>
               <div className="h-1 w-16 bg-[#AAB99A] rounded-none"></div>
             </div>
           </div>
@@ -306,13 +318,13 @@ const announcements=Announcements;
         
         {/* Multiple Cards Grid Layout - Updated card style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {announcements.map((item, index) => (
+          {donations.map((item, index) => (
             <div key={item.id || index} className="group">
               <div className="h-full bg-white rounded-none overflow-hidden shadow-md transition-all duration-500 group-hover:shadow-xl border-l-2 border-[#727D73]">
                 {/* Card Image with Overlay Gradient */}
                 <div className="relative h-40 overflow-hidden">
                   <img 
-                    src={item.image}
+                    // src={item.image}
                     alt={item.reason} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
@@ -320,8 +332,8 @@ const announcements=Announcements;
                   
                   {/* Status Badge - Updated style */}
                   <div className="absolute top-4 right-4">
-                    <span className={`text-xs font-semibold px-3 py-1 rounded-none ${getStatusColor(item.verified)}`}>
-                      {item.verified}
+                    <span className={`text-xs font-semibold px-3 py-1 rounded-none ${getStatusColor(true)}`}>
+                      {/* {item.verified} */}
                     </span>
                   </div>
                 </div>
@@ -330,13 +342,14 @@ const announcements=Announcements;
                 <div className="p-5">
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="text-lg font-semibold text-[#727D73] transition-all duration-300 group-hover:text-[#AAB99A] border-b border-transparent group-hover:border-[#AAB99A]">
-                      {item.reason}
+                      State No. {item.debtor_id}
                     </h3>
-                    <span className="text-xs text-gray-500">{item.created_at}</span>
+                    <span className="text-xs text-gray-500">made donation at : {item.created_at}</span>
                   </div>
                   
                   <p className="text-sm text-gray-600 mb-4 line-clamp-3">
-                    {item.total_debt}
+
+                    {`${item.amount}JD`}
                   </p>
                   
                   <div className="flex justify-between items-center">
@@ -353,7 +366,7 @@ const announcements=Announcements;
         </div>
         
         {/* Optional "View All" button if there are many announcements - Updated style */}
-        {announcements.length > 6 && (
+        {donations.length > 6 && (
           <div className="mt-8 flex justify-center">
             <button className="px-6 py-2.5 bg-[#727D73] text-white rounded-none font-medium shadow-md transition-all duration-300 hover:bg-[#AAB99A]">
               View All Announcements

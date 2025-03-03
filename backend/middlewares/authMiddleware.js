@@ -41,6 +41,7 @@ const authenticate = (req, res, next) => {
       }
 
       req.user = decoded; // Attach user info to request
+
       next();
     });
   } catch (error) {

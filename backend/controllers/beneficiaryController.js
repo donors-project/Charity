@@ -80,4 +80,28 @@ const createBeneficiary = async (req, res) => {
   }
 };
 
+// const getDonationsByUserId = async (req,res) => {
+//   try {
+
+//     const donations = await Donation.findAll({
+//       include: {
+//         model: Donor,
+//         attributes: [], // Exclude donor fields if not needed
+//         where: { user_id: userId },
+//       },
+//     });
+
+//     return donations;
+//   } catch (error) {
+//     console.error("Error fetching donations:", error);
+//     throw error;
+//   }
+// };
+
+// // Example usage
+// const userId = 56; // Replace with actual user ID
+// getDonationsByUserId(userId).then((donations) => {
+//   console.log(donations);
+// });
+
 module.exports = { getAllAds, createBeneficiary };

@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const Donor = require("../models/donor"); // Adjust the path based on your project structure
+const Donation = require("../models/donation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -23,6 +25,24 @@ const getUserById = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error retrieving user" });
+  }
+};
+const getUserDonations = async (req, res) => {
+  try {
+    const userId = req.params.id; // Get user ID from URL
+
+    const donations = await Donation.findAll({
+      include: {
+        model: Donor,
+        attributes: [], // Exclude donor fields if not needed
+        where: { user_id: userId },
+      },
+    });
+
+    res.status(200).json(donations);
+  } catch (err) {
+    console.error("Error fetching donations:", err);
+    res.status(500).json({ message: "Error retrieving donations" });
   }
 };
 
@@ -239,4 +259,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getMe,
+  getUserDonations,
 };

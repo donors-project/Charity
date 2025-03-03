@@ -8,6 +8,7 @@ import axios from 'axios';
 
 
 const BeneficiaryProfile = () => {
+  const dispatch=useDispatch();
   // For handling the announcement slider
   const sliderRef = useRef(null);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
@@ -15,38 +16,77 @@ const [userInfo, setUserInfo] = useState(null);
 const [user,setUser]=useState(null);
 const [Announcements,setAnnouncements]=useState();
   const userid=useSelector((state)=>state.UID.userId);
+  const[error,setError]=useState();
+
+
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //        const tokenResponse = await axios.get("http://localhost:5000/api/users/me", {
+  //         withCredentials: true, // Ensures cookies are sent
+  //       });
+        
+  //       const userId = tokenResponse.data.id;
+  //       console.log(userId);
+  //       dispatch(setId(userId)); 
+  //       const response = await axios.get(`http://localhost:5000/api/users/${userid}`,{withCredentials: true} );
+  //       console.log(response.data)
+  //       setUserInfo(response.data);
+  //       setUser(response.data);
+        
+  //     } catch (err) {
+  //       setError("Failed to fetch user data.");
+  //     } 
+  //   };
+  //   // const fetchAds=async () => {
+
+  //   //  const response=await axios.get(`http://localhost:5000/api/ads/${userid}`);
+  //   //      const verifiedAds = response.data.filter(ad => ad.verified === true);
+    
+  //   // setAnnouncements(verifiedAds);
+  //   // //  setAnnouncements(response.data);
+  //   // }
+
+  //   if (userid) {
+  //     fetchUserData();
+  //     // fetchAds();
+  //   }
+  // }, [userid]);
 
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        
-        const response = await axios.get(`http://localhost:5000/api/users/${userid}`);
-        setUserInfo(response.data);
-        setUser(response.data);
-        
-      } catch (err) {
-        setError("Failed to fetch user data.");
-      } 
-    };
-    const fetchAds=async () => {
-
-     const response=await axios.get(`http://localhost:5000/api/ads/${userid}`);
-         const verifiedAds = response.data.filter(ad => ad.verified === true);
-    
-    setAnnouncements(verifiedAds);
-    //  setAnnouncements(response.data);
+  const fetchUserData = async () => {
+    try {
+      const tokenResponse = await axios.get("http://localhost:5000/api/users/me", {
+        withCredentials: true, // Ensures cookies are sent
+      });
+      
+      const userId = tokenResponse.data.id;
+      dispatch(setId(userId)); 
+      const response = await axios.get(`http://localhost:5000/api/users/${userId}`, { withCredentials: true });
+      console.log(response.data);
+      setUserInfo(response.data);
+      setUser(response.data);
+    } catch (err) {
+      setError("Failed to fetch user data.");
     }
+  }
+  const fetchAds=async () => {
 
-    if (userid) {
-      fetchUserData();
-      fetchAds();
-    }
-  }, [userid]);
+const response=await axios.get(`http://localhost:5000/api/ads/${userid}`,{withCredentials: true, });
+   const verifiedAds = response.data.filter(ad => ad.verified === true);
+
+setAnnouncements(verifiedAds);
+//  setAnnouncements(response.data);
+  };
+
+  fetchUserData();
+  fetchAds();
+}, [userid, dispatch]); // Make sure to include userid and dispatch as dependencies
 
 async function updateInfo(){
   try {
-    const response=await axios.put(`http://localhost:5000/api/users/${userid}`,user);
+    const response=await axios.put(`http://localhost:5000/api/users/${userid}`,user,{withCredentials: true, });
     // setUser(null);
     // setUserInfo(response.data);
         setUser(response.data); // Update the local `user` state
