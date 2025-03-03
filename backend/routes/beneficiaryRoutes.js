@@ -15,5 +15,4 @@ router.post(
   beneficiaryController.createBeneficiary
 );
 
-
 module.exports = router;
