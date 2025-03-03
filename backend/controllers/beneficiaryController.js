@@ -65,6 +65,7 @@ const createBeneficiary = async (req, res) => {
       category,
       identity_image: imageUrl,
       user_id: req.user.id, // تأكد أن المستخدم مسجل الدخول
+      verified: null,
     });
 
     return res.status(201).json({
