@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 const CardDB = () => {
   const [cardsData, setCardsData] = useState([]);
@@ -25,10 +27,10 @@ const CardDB = () => {
   if (error) return <div className="text-center py-6 text-red-600">{error}</div>;
 
   return (
-    
+
     <div className=" mb-12 w-full flex items-center justify-center" dir="rtl">
       <div className="p-6 w-[90%] ">
-      <h2 className="text-4xl font-bold text-black text-center mb-10">حالات للتبرع</h2>
+        <h2 className="text-4xl font-bold text-black text-center mb-10">حالات للتبرع</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cardsData.length > 0 ? (
             cardsData.map((cardData) => {
@@ -45,10 +47,7 @@ const CardDB = () => {
                   <div className="bg-[#AAB99A] p-4 relative">
                     <div className="bg-white rounded-lg p-4 mt-2 mb-6">
                       <p className="text-center font-medium text-gray-800">
-                        عليه أمر بالتنفيذ وحكم بالسجن بسبب {cardData.reason} عمره{" "}
-                        {cardData.id} عاما
-                        <br /> متبقي عليه مبلغ {remainingDebt.toLocaleString()}{" "}
-                        دينار
+                        {cardData.reason}
                       </p>
                     </div>
                     <div
@@ -65,7 +64,7 @@ const CardDB = () => {
                   <div className="flex justify-between items-center p-4">
                     <div className="text-right">
                       <p className="text-gray-500 mb-1">تم جمع</p>
-                      <p className="font-bold text-lg">% {collectionPercentage}</p>
+                      <p className="font-bold text-lg">% {((cardData.remaining_debt / cardData.total_debt) * 100).toFixed()}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-gray-500 mb-1">المبلغ المتبقي</p>
@@ -90,9 +89,12 @@ const CardDB = () => {
                     </div>
                   </div>
                   <div className="p-4 text-center border-t">
-                    <button className="text-gray-500 font-bold hover:cursor-pointer hover:text-gray-800">
+                    <Link
+                      to="/Announcements"
+                      className="text-gray-500 font-bold hover:cursor-pointer hover:text-gray-800"
+                    >
                       عرض التفاصيل
-                    </button>
+                    </Link>
                   </div>
                 </div>
               );

@@ -64,7 +64,7 @@ function Home() {
 
   return (
     <div
-    className="relative w-full h-120 flex items-center justify-center overflow-hidden bg-cover bg-center transition-opacity duration-700"
+    className="relative w-full h-160 flex items-center justify-center overflow-hidden bg-cover bg-center transition-opacity duration-700"
     style={{
       backgroundImage: loadedImages[slides[currentSlide].image]
         ? `url(${slides[currentSlide].image})`
