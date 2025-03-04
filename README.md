@@ -71,7 +71,7 @@ Below are some screenshots from the project:
 ![Admin Dash](https://drive.google.com/uc?export=view&id=1UMRAQ7PLFimU6t6GWU3hAlT3i6WF2yz_)
 
 ### 📸 Admin Dash
-![Admin Dash](https://drive.google.com/uc?export=view&id=1QsP6mZySzm26A2s0hMLC78YD6XQIH)
+![Admin Dash](https://drive.google.com/uc?export=view&id=1QsP6mZySzm26A2s0hMLC78YD6XQIH-rX)
 
 ### 📸 Admin Dash  
 ![Admin Dash](https://drive.google.com/uc?export=view&id=1KdKVnPVOdsr-cRigVKNPkRyhi2W6mlWD)
