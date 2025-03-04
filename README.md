@@ -85,8 +85,8 @@ Below are some screenshots from the project:
 ### 📸 Admin Dash  
 ![Admin Dash](https://drive.google.com/uc?export=view&id=1bomNuATqwbyBb0ayWCDHhfhJrv3BpckS)
 
-### 📸 Admin Dash 
-![Admin Dash](https://drive.google.com/uc?export=view&id=12IC-C3ZZVArlbFAMJeK1kI3Vrl3SaLas)
+### 📸 Register 
+![Register](https://drive.google.com/uc?export=view&id=100MZ9uDRVX1d4rM4qu7ufVYxC7BN2DED)
 
-### 📸 Admin Dash  
-![Admin Dash](https://drive.google.com/uc?export=view&id=12IC-C3ZZVArlbFAMJeK1kI3Vrl3SaLas)
+### 📸 Reviews  
+![Reviews](https://drive.google.com/uc?export=view&id=1ipzC8zb_ZxSvIC0sxVR8v0DUHAAeDmSu)
