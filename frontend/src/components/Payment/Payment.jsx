@@ -86,7 +86,7 @@ const sendDonationData = async (paymentDetails) => {
             </div>
             <div className="py-2 flex justify-between">
               <span className="font-semibold">المبلغ:</span>
-              <span className="text-lg">{amount} دولار</span>
+              <span className="text-lg">{amount} دينار</span>
             </div>
           </div>
 

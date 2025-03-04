@@ -8,22 +8,6 @@ I'm Hasan Omar Hasan Mansour, a passionate MERN-Stack Developer & Java Developer
 
 ---
 
-## **📄 Pages**  
-
-- **Home Page**  
-- **Admin Dashboard**  
-- **Donor Dashboard**  
-- **Beneficiary Dashboard**  
-- **Donation Programs Page**  
-- **Donation Details Page**  
-- **Register & Login (Google & Facebook)**  
-- **About & Contact**  
-- **Donation Checkout Page**  
-- **User Profile Page**  
-- **Support Page**  
-
----
-
 ## **✨ Features**  
 
 - **🔥 PostgreSQL Integration**: Integrated PostgreSQL for authentication and database management.  
@@ -53,9 +37,56 @@ I'm Hasan Omar Hasan Mansour, a passionate MERN-Stack Developer & Java Developer
 
 ---
 
-
 ## 🎨 Figma Wireframe and Mockup  
 Explore the wireframes and mockups for the project design on Figma:  
 👉 [Access the Figma Wireframe & Mockup](https://www.figma.com/design/6U2elgFigZtElqYJVTAyX3/donors-project?node-id=0-1&t=xWN6CBloyFYa7WVx-1)
 
 ---
+
+## 🖼️ Preview  
+Below are some screenshots from the project:
+
+### 📸 Home Page  
+![Home Page](https://drive.google.com/uc?export=view&id=1Bgy_q7N2IPg8gDMoBs7uCUQa3GSp-Z31)
+
+### 📸 Cases Page  
+![Cases Page](https://drive.google.com/uc?export=view&id=1b7Eg1IMOFAYdutRizJHBLrSpxiteR32l)
+
+### 📸 Case Details  
+![Case Details](https://drive.google.com/uc?export=view&id=1FFFYIyVPYWrCsDuvEpv9Pl-z4CCLIju9)
+
+### 📸 Peyment  
+![Peyment](https://drive.google.com/uc?export=view&id=1a6khoO6alHKpmAmKVTLkkLWRnBadiDmp)
+
+### 📸 Profile Page  
+![Profile Page](https://drive.google.com/uc?export=view&id=1WQ9rFX3X2dB2zmTgQNi4niRdWT0vtkKR)
+
+### 📸 About Us Page  
+![About Us Page](https://drive.google.com/uc?export=view&id=1spQanBq2SgD4vsfwpbgMEig86DUlI9Gz)
+
+### 📸 Admin Dash   
+![Admin Dash](https://drive.google.com/uc?export=view&id=1lkyOAZXDlTvzJi01lnwv9eAMZWjCBK8M)
+
+### 📸 Admin Dash  
+![Admin Dash](https://drive.google.com/uc?export=view&id=1UMRAQ7PLFimU6t6GWU3hAlT3i6WF2yz_)
+
+### 📸 Admin Dash
+![Admin Dash](https://drive.google.com/uc?export=view&id=1QsP6mZySzm26A2s0hMLC78YD6XQIH)
+
+### 📸 Admin Dash  
+![Admin Dash](https://drive.google.com/uc?export=view&id=1KdKVnPVOdsr-cRigVKNPkRyhi2W6mlWD)
+
+### 📸 Admin Dash 
+![Admin Dash](https://drive.google.com/uc?export=view&id=1nxLaio7WVKwZFgabmwTHOanLENRexMeh)
+
+### 📸 Admin Dash 
+![Admin Dash](https://drive.google.com/uc?export=view&id=1YQPEzTIKhIeb2r_3Gbx-Zx9jvmI84tba)
+
+### 📸 Admin Dash  
+![Admin Dash](https://drive.google.com/uc?export=view&id=1bomNuATqwbyBb0ayWCDHhfhJrv3BpckS)
+
+### 📸 Admin Dash 
+![Admin Dash](https://drive.google.com/uc?export=view&id=12IC-C3ZZVArlbFAMJeK1kI3Vrl3SaLas)
+
+### 📸 Admin Dash  
+![Admin Dash](https://drive.google.com/uc?export=view&id=12IC-C3ZZVArlbFAMJeK1kI3Vrl3SaLas)

@@ -3,12 +3,11 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
-// Replace this with your actual signature image in base64 format (without the data:image/png;base64, prefix if needed)
 const signatureBase64 = "YOUR_SIGNATURE_IMAGE_BASE64";
 
 const ReportGeneration = () => {
-  const [reports, setReports] = useState([]); // Donations list
-  const [summary, setSummary] = useState(null); // Statistics summary
+  const [reports, setReports] = useState([]);
+  const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     startDate: "",
@@ -17,7 +16,7 @@ const ReportGeneration = () => {
     beneficiaryId: "",
   });
 
-  // Fetch report data from API
+  // Fetch report data
   const handleGenerateReport = async () => {
     try {
       setLoading(true);
@@ -44,7 +43,7 @@ const ReportGeneration = () => {
     }).format(amount);
   };
 
-  // Export report as CSV with English headers
+  // Export as CSV
   const handleExportCSV = () => {
     if (!reports.length) {
       alert("No data to export. Please generate the report first.");
@@ -97,7 +96,7 @@ const ReportGeneration = () => {
     document.body.removeChild(link);
   };
 
-  // Export report as PDF with an official header, footer, and signature image
+  // Export report as PDF 
   const handleDownloadPDF = () => {
     if (!reports.length) {
       alert("No data to export. Please generate the report first.");
@@ -197,7 +196,7 @@ const ReportGeneration = () => {
     });
 
     // Add a signature image to simulate an official signature
-    // Adjust the x, y, width, and height as needed
+    // Adjust width and height
     const signatureX = 14;
     const signatureY = pageHeight - 60;
     const signatureWidth = 50;
@@ -205,7 +204,7 @@ const ReportGeneration = () => {
     if (signatureBase64 && signatureBase64 !== "YOUR_SIGNATURE_IMAGE_BASE64") {
       doc.addImage(signatureBase64, "PNG", signatureX, signatureY, signatureWidth, signatureHeight);
     } else {
-      // Fallback: Draw a line if signature image is not provided
+    // Fallback: Draw a line if signature image is not provided
       doc.setLineWidth(0.5);
       doc.line(signatureX, signatureY + signatureHeight / 2, signatureX + signatureWidth, signatureY + signatureHeight / 2);
     }

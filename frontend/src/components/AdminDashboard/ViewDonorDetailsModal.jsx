@@ -3,8 +3,8 @@ import React from "react";
 /**
  * @param {boolean}  isOpen
  * @param {function} onClose
- * @param {object}   donor       - The donor record from the backend
- * @param {object}   user        - The user record (if included)
+ * @param {object}   donor       
+ * @param {object}   user
  */
 const ViewDonorDetailsModal = ({ isOpen, onClose, donor, user }) => {
   if (!isOpen) return null;
@@ -89,7 +89,7 @@ const ViewDonorDetailsModal = ({ isOpen, onClose, donor, user }) => {
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-white p-3 rounded-lg shadow-sm">
                   <p className="text-xs text-gray-500">معرف المتبرع</p>
-                  <p className="text-sm font-bold text-gray-800 mt-1 font-mono">{donor.id}< /p>
+                  <p className="text-sm font-bold text-gray-800 mt-1 font-mono">{donor.id}</p>
                 </div>
                 <div className="bg-white p-3 rounded-lg shadow-sm">
                   <p className="text-xs text-gray-500">إجمالي التبرع</p>

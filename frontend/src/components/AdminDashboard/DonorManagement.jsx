@@ -189,7 +189,7 @@ const DonorManagement = () => {
                       </button>
                     </td>
                     <td className="px-6 py-4 font-medium text-gray-700">
-                      {Number(donor.total_donated || 0).toLocaleString("ar-SA")} ريال
+                      {Number(donor.total_donated || 0).toLocaleString("ar-SA")} دينار
                     </td>
                     {/* Show user’s full_name directly */}
                     <td className="px-6 py-4 font-semibold text-[#2d665f]">

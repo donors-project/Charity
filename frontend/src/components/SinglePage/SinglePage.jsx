@@ -157,7 +157,7 @@ const SinglePage = () => {
                 {/* Case Info Card */}
                 <div className="bg-white rounded-lg p-6 shadow-md relative z-10">
                   <p className="text-lg font-medium text-gray-800 text-center leading-relaxed">
-                    محتاجة عمرها {cardData.id} عاماً أرملة، بحاجة إلى مسكن يمنحها الاستقرار، تبقى على توفيره لها {cardData.total_debt} دينار
+                    محتاجة    أرملة، بحاجة إلى مسكن يمنحها الاستقرار، تبقى على توفيره لها {cardData.total_debt} دينار
                   </p>
                 </div>
               </div>

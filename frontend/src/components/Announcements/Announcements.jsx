@@ -216,7 +216,6 @@ const Announcements = () => {
                     <div className="bg-white rounded-lg p-4 mt-2 mb-6">
                       <p className="text-center font-medium text-gray-800">
                         عليه أمر بالتنفيذ وحكم بالسجن بسبب {cardData.reason}{" "}
-                        عمره {cardData.id} عاما
                         <br /> متبقي عليه مبلغ {remainingDebt.toLocaleString()}{" "}
                         دينار
                       </p>
