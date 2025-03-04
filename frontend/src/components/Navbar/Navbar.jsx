@@ -46,8 +46,10 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "الرئيسية", href: "/" },
-    { name: "حاسبة الزكاة", href: "/zakah-calculator" },
     { name: "فرص التبرع", href: "/announcements" },
+    { name: "حاسبة الزكاة", href: "/zakah-calculator" },
+    { name: "سواعد الجود", href: "/top-donations" },
+
     { name: "عن الموقع", href: "/about" },
     { name: "اتصل بنا", href: "/contact" },
   ];
