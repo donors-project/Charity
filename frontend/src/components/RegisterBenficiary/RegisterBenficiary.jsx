@@ -38,8 +38,9 @@ export default function RegisterBeneficiary() {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-    formDataToSend.append("total_debt", formData.total_debt);
-    formDataToSend.append("reason", formData.reason);
+    // Map client field names to server field names
+    formDataToSend.append("debt_amount", formData.total_debt);
+    formDataToSend.append("debt_reason", formData.reason);
     formDataToSend.append("category", formData.category);
     if (formData.identity_image) {
       formDataToSend.append("identity_image", formData.identity_image);
@@ -64,7 +65,7 @@ export default function RegisterBeneficiary() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-[#F0F0D7] to-[#E8E8D0]">
-      {/* Left side decorative panel - visible on medium screens and up */}
+      {/* Left side decorative panel */}
       <div className="hidden md:flex md:w-1/3 bg-gradient-to-br from-[#D0DDD0] to-[#C0D0C0] flex-col justify-center items-center p-8 shadow-inner">
         <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[#AAB99A] to-[#97A788] mb-6 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-300">
           <svg
@@ -116,7 +117,7 @@ export default function RegisterBeneficiary() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6" dir="rtl">
-              {/* إجمالي الدين */}
+              {/* Debt Amount */}
               <div className="space-y-2">
                 <label className="block text-right font-medium text-[#556456] text-sm">
                   إجمالي الدين
@@ -149,7 +150,7 @@ export default function RegisterBeneficiary() {
                 </div>
               </div>
 
-              {/* سبب الدين */}
+              {/* Debt Reason */}
               <div className="space-y-2">
                 <label className="block text-right font-medium text-[#556456] text-sm">
                   سبب الدين
@@ -180,7 +181,7 @@ export default function RegisterBeneficiary() {
                 </div>
               </div>
 
-              {/* الفئة */}
+              {/* Category */}
               <div className="space-y-2">
                 <label className="block text-right font-medium text-[#556456] text-sm">
                   الفئة
@@ -224,7 +225,7 @@ export default function RegisterBeneficiary() {
                 </div>
               </div>
 
-              {/* تحميل صورة الهوية */}
+              {/* Identity Image */}
               <div className="space-y-2">
                 <label className="block text-right font-medium text-[#556456] text-sm">
                   صورة الهوية
@@ -277,7 +278,7 @@ export default function RegisterBeneficiary() {
                 </label>
               </div>
 
-              {/* زر التسجيل */}
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
