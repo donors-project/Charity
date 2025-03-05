@@ -11,6 +11,7 @@ const homeRoutes = require("./routes/homeRoutes");
 const topDonors = require("./routes/topDonorRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const donationRoutes = require("./routes/donationRoutes");
+const myDonations = require("./routes/myDonationsRoutes");
 
 require("./models/associations");
 const cors = require("cors");
@@ -33,6 +34,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/BFY", BFYRoutes);
 app.use("/api", donationRoutes);
+app.use("/api/mydonations", myDonations);
 
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);

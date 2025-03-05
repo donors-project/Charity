@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+import axios from "axios";
+import Cookies from "js-cookie"; 
+import Swal from "sweetalert2";
+
+
 const SweetAlert = ({ onClose }) => {
   useEffect(() => {
     // Auto close after 3 seconds
@@ -45,7 +50,100 @@ const DonorProfile = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [userid,setUserId]=useState();
+  const [role,setRole]=useState('');
+const [userInfo,setInfo]=useState({});
+const [user,setUser]=useState(null);
+const [donations,setDonations]=useState([]);
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = Cookies.get("token");
+        if (token) {
+          const tokenResponse = await axios.get("http://localhost:5000/api/users/me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const userId = tokenResponse.data.id;
+          const userRole = tokenResponse.data.role;
+          setRole(userRole);
+          setUserId(userId);
+                const response = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
+
+          setInfo(response.data);
+          setUser(response.data);
+
+             const donationsResponse = await axios.get(`http://localhost:5000/api/mydonations/${userId}/donations`,  {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      console.log("User Donations:", donationsResponse.data);
+      setDonations(donationsResponse.data);
+
+        }
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  console.log(userid,role);
+  console.log(userInfo);
+
   
+
+  async function updateInfo(){
+  try {
+     const token = Cookies.get("token");
+    
+    const response=await axios.put(`http://localhost:5000/api/users/${userid}`,user, 
+    {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
+    // setUser(null);
+    // setUserInfo(response.data);
+        setUser(response.data); // Update the local `user` state
+        setInfo(response.data); // Update the `userInfo` state with the latest data
+         Swal.fire({
+      title: "Success!",
+      text: "User updated successfully",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+
+    
+  } catch (error) {
+     console.error("Error updating user:", error);
+    
+    // إظهار SweetAlert عند حدوث خطأ
+    Swal.fire({
+      title: "Error!",
+      text: "Failed to update user",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    
+  }
+
+
+}
+  
+
+
+
   // Function to handle the save button click and show sweet alert
   const handleSaveChanges = () => {
     // In a real implementation, you would normally save the data first
@@ -84,7 +182,8 @@ const DonorProfile = () => {
                 <input 
                   type="text" 
                   className="w-full p-3 border border-[#AAB99A] rounded-md focus:ring-2 focus:ring-[#727D73] focus:border-[#727D73] transition-all duration-300"
-                  defaultValue="ali mohmmad"
+                  value={user?.full_name || ''}
+                  onChange={(e) => setUser({ ...user, full_name: e.target.value })}
                 />
               </div>
               
@@ -93,7 +192,8 @@ const DonorProfile = () => {
                 <input 
                   type="email" 
                   className="w-full p-3 border border-[#AAB99A] rounded-md focus:ring-2 focus:ring-[#727D73] focus:border-[#727D73] transition-all duration-300"
-                  defaultValue="ali@example.com"
+                                          value={user?.email || ''}
+                        onChange={(e) => setUser({ ...user, email: e.target.value })}
                 />
               </div>
               
@@ -111,14 +211,14 @@ const DonorProfile = () => {
                 <input 
                   type="password" 
                   className="w-full p-3 border border-[#AAB99A] rounded-md focus:ring-2 focus:ring-[#727D73] focus:border-[#727D73] transition-all duration-300"
-                  placeholder="أدخل كلمة المرور الجديدة"
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
                 />
               </div>
             </div>
             
             <div className="mt-8 flex justify-end">
               <button 
-                onClick={handleSaveChanges}
+                onClick={updateInfo}
                 className="bg-[#727D73] text-white px-6 py-2 rounded-md font-medium hover:bg-opacity-90 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 relative overflow-hidden"
               >
                 <span className="relative z-10">حفظ التغييرات</span>
@@ -137,78 +237,80 @@ const DonorProfile = () => {
         </h2>
         
         {/* Modern Card with Animations */}
-        <div 
-          className="bg-gradient-to-br from-[#D0DDD0] to-[#AAB99A] rounded-2xl overflow-hidden shadow-lg transform transition-all duration-500 hover:shadow-2xl"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          <div className={`relative p-8 transition-all duration-500 ${isExpanded ? "pb-32" : "pb-8"}`}>
-            {/* Card Content */}
-            <div className={`transition-all duration-500 ${isHovered ? "transform -translate-y-2" : ""}`}>
-              {/* Card Header */}
-              <div className="flex justify-between items-start mb-6">
-                <h3 className="text-2xl font-bold text-[#727D73]">قرض تعليمي</h3>
-                <div className="flex items-center justify-center h-12 w-12 bg-white bg-opacity-30 backdrop-blur-md rounded-xl transform transition-transform duration-300 hover:rotate-12">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#727D73]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              </div>
-              
-              {/* Description */}
-              <p className="text-[#727D73] mb-8 transition-all duration-500 ease-in-out">
-                قرض طلابي للدراسات العليا في جامعة التكنولوجيا. يغطي التمويل الرسوم الدراسية والكتب ونفقات المعيشة لبرنامج مدته عامين.
-              </p>
-              
-              {/* Financial Information */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className={`transition-all duration-500 ease-in-out ${isHovered ? "transform -translate-y-1" : ""}`}>
-                  <h4 className="text-sm uppercase tracking-wider text-[#727D73] opacity-70 mb-1">تبرعت ب:</h4>
-                  <div className="text-2xl font-bold text-[#727D73]">$1,500</div>
-                  <div className="mt-2 relative h-2 bg-white bg-opacity-30 rounded-full overflow-hidden">
-                    <div className="absolute top-0 right-0 h-full bg-[#727D73] rounded-full" style={{ width: '50%' }}></div>
-                  </div>
-                  <div className="text-xs text-[#727D73] mt-1">نسبة المساهمة 50%</div>
-                </div>
-                
-                <div className={`transition-all duration-500 ease-in-out ${isHovered ? "transform -translate-y-1 delay-100" : ""}`}>
-                  <h4 className="text-sm uppercase tracking-wider text-[#727D73] opacity-70 mb-1">المبلغ الإجمالي</h4>
-                  <div className="text-2xl font-bold text-[#727D73]">$3,000</div>
-                  <div className="flex items-center mt-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#727D73] ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="text-xs text-[#727D73]">البداية: سبتمبر 2023</span>
-                  </div>
-                </div>
-              </div>
+        
+    {donations && donations.length > 0 ? (
+      <div className="bg-white rounded-2xl shadow-xl p-8 transition-all duration-500 hover:shadow-2xl border-t-4 border-[#AAB99A]">
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <h2 className="text-2xl font-bold text-[#727D73] border-b-2 border-[#AAB99A] pb-1">ملخص التبرعات</h2>
+              <div className="h-1 w-16 bg-[#AAB99A] rounded-none"></div>
             </div>
-            
-            {/* Expandable Content */}
-            <div 
-              className={`absolute left-0 right-0 px-8 transition-all duration-500 ease-in-out overflow-hidden ${
-                isExpanded ? "opacity-100 max-h-96 translate-y-0" : "opacity-0 max-h-0 translate-y-10"
-              }`}
-              style={{ top: '16rem' }}
-            >
-              
-            </div>
-          </div>
-          
-          {/* Card Footer */}
-          <div className="px-8 py-4 bg-[#727D73] bg-opacity-10 backdrop-blur-sm flex justify-between items-center">
-            <div className="text-sm text-[#727D73] font-medium">
-              <span className={`inline-block transition-transform duration-300 ml-1 ${isExpanded ? "rotate-180" : ""}`}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </span>
-              {isExpanded ? "إخفاء التفاصيل" : "عرض التفاصيل"}
-            </div>
-    
           </div>
         </div>
+        
+        {/* Multiple Cards Grid Layout - Updated card style */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {donations.map((item, index) => (
+            <div key={item.id || index} className="group">
+              <div className="h-full bg-white rounded-none overflow-hidden shadow-md transition-all duration-500 group-hover:shadow-xl border-l-2 border-[#727D73]">
+                {/* Card Image with Overlay Gradient */}
+                <div className="relative h-40 overflow-hidden">
+                  <img 
+                    src="/public/18880485_v991-a-23-b.jpg"
+                    alt={item.reason} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                  
+                  {/* Status Badge - Updated style */}
+                  <div className="absolute top-4 right-4">
+       
+                  </div>
+                </div>
+                
+                {/* Card Content - Updated typography and spacing */}
+                <div className="p-5">
+                  <div className="flex justify-between items-center mb-3">
+                    <h3 className="text-lg font-semibold text-[#727D73] transition-all duration-300 group-hover:text-[#AAB99A] border-b border-transparent group-hover:border-[#AAB99A]">
+                      رقم الحالة: {item.debtor_id}
+                    </h3>
+                    <span className="text-xs text-gray-500">تم التبرع بتاريخ : {item.created_at}</span>
+                  </div>
+                  
+                  <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+
+قيمة التبرع :
+                    {`${item.amount}JD`}
+                  </p>
+                  
+                  <div className="flex justify-between items-center">
+                    <div className="relative overflow-hidden">
+                      <button className="text-sm font-medium px-4 py-1.5 rounded-none bg-[#D0DDD0] text-[#727D73] transition-all duration-300 group-hover:bg-[#AAB99A] group-hover:text-white">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Optional "View All" button if there are many announcements - Updated style */}
+        {donations.length > 6 && (
+          <div className="mt-8 flex justify-center">
+            <button className="px-6 py-2.5 bg-[#727D73] text-white rounded-none font-medium shadow-md transition-all duration-300 hover:bg-[#AAB99A]">
+              View All Announcements
+            </button>
+          </div>
+        )}
+      </div>
+    ) : (
+      <div className="bg-white rounded-2xl shadow-xl p-8 text-center border-t-4 border-[#AAB99A]">
+        <h2 className="text-xl text-gray-500">There are no announcements</h2>
+      </div>
+    )}
       </div>
     </div>
   );
